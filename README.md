@@ -1,6 +1,7 @@
 # pk-intelligence
 
 > A Vue.js project
+答题应用－持续更新中
 
 ## Build Setup
 
