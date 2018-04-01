@@ -33,22 +33,30 @@ export default {
 
 <style lang="stylus" scoped>
     #home
-        padding 20px
+        height 100%
+        background-image url('../assets/image/blue-station.jpg')
+        background-repeat:no-repeat;
+        background-size: 100% 100%;
+
+    #user-div
+        padding-top  30%;       
 
     #user-div>img
-        width 80px
-        height 80px
-        border-radius 40px
-        border 2px solid rgba(240, 240, 240, 0.7)
+        width 90px
+        height 90px
+        border-radius 45px
+        border 4px solid lightgray
 
     .game-mode > li 
         list-style-type none
         border-radius 10px
         line-height 70px
-        font-family '微软雅黑'
+        font-family 'happyfont'
+        color #443f35
+        letter-spacing 4px
         font-size 30px
         font-weight bold
-        width 300px
+        width 200px
         height 70px
         margin-left auto 
         margin-right auto 

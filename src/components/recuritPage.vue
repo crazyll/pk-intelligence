@@ -3,28 +3,25 @@
         <h2>第{{curQuestionNo+1}}题</h2>
         <Modal v-if="Boolean(modalText)">{{modalText}}</Modal>
         <section id="question">
-            <div class="bfc">
-                <h4 id="subject" class="clearfix">{{question.subject}}</h4>  
-            </div>                   
+            <h4 id="subject">{{question.subject}}</h4>       
             <ul class="item_list">
                 <li 
                     class="option_detail"
                     v-for="(item, index) in question.options" 
                     :key="index"
                     v-on:click="chooseId = index"
+                    v-bind:class="{'has_choosed' : index===chooseId}"
                 >
-                    <span 
-                        class="option_style" 
-                        v-bind:class="{'has_choosed' : index===chooseId}">
+                    <span class="option_style">
                         {{index | chooseOpt}}
                     </span>
-                    <span class="answer_style">{{item}}</span>
+                    <p class="answer_style">{{item}}</p>
                 </li>
             </ul>
-            <button 
+            <p 
             class="nextStepBtn"
             @click="calulateScore(tips, $event)" 
-            >{{tips}}</button>
+            >{{tips}}</p>
         </section>
         
         
@@ -129,62 +126,66 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+    #question-div
+        height 100% 
+        padding-top 20%
+        background-image url("../assets/image/man-star.jpg")
+        background-repeat no-repeat
+        background-position center
+        background-size 100% 80%
+
     .reddiv{
         background red
         width 100px
         height 20
     }
     #question
-        margin-left 30%
-        margin-right 30%
+        margin-left 20%
+        margin-right 20%
         margin-top 5%
 
     .clearfix:after, .clearfix:before
         content:""; 
         display:table-cell;
 
-    .bfc
-        display inline-block
-        width 100% 
-
     #subject
-        float left 
+        text-align  left 
+
+    .item_list
+        margin-top 10px
 
     .option_detail{
         text-align left
-        margin-top 10px
         list-style-type none
+        font-weight 420
+        padding 8px
+
     }
     .option_style
-        display: inline-block
-        position absolute
-        height: 1rem;
-        width: 1rem;        
+        display table-cell
+        height: 1rem;    
         line-height: 1rem;
         text-align center
-        border: 1px solid #000;
-        border-radius: 50%;
         font-size: 0.7rem;
-        font-family: 'Arial'
+        font-family: 'happyfont'
+        font-weight bold
 
     .answer_style
-        position relative
-        top -3px
-        left 30px
+        display table-cell
+        padding-left 0.5rem
 
     .has_choosed
-        background-color #ffd400
-        border-color: #ffd400;
-        border: 1px solid #ffa400;
+        // background-color #6ff5b1a3   
+        background:linear-gradient(310deg,#fff 3%,#d391acc4 50%,#fff 90%)
+        // border-radius 5px
+
 
     .nextStepBtn
         float right
         margin-top 15px
-        padding 0
-        width 70px
-        height 40px
-        border-radius 5px
-        background #aaccff
-        font-size 1rem
+        font-size 1.3rem
+        font-family 'happyfont'
+        color #0a6af9
+        text-shadow 1px 2px 1px gray
     
 </style>

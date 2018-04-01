@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'fontawesome';
+    src:url('/static/fonts/fontawesome-webfont.woff'),  
+    url('/static/fonts/fontawesome-wefont.ttf'),
+    url('/static/fonts/fontawesome-webfont.eot'), /* IE9 */
+    url('/static/fonts/fontawesome-webfont.svg');
+}
+
+@font-face{
+    font-family: 'happyfont';
+    src: url('/static/fonts/站酷快乐体2016修订版.ttf')
+}
