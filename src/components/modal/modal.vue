@@ -5,7 +5,6 @@
         </div>
         <div class="md-overlay">test</div>
     </div>
-    
 </template>
 
 <script>

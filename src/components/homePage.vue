@@ -17,7 +17,7 @@ export default {
         return {
             user: {
                 userName: '哈酱',
-                photo: '/static/1.jpg',
+                photo: '/static/cat.jpg',
                 grade: '100'
             },
 
