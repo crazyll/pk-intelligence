@@ -30,19 +30,13 @@
 
 <script>
 import Modal from './modal/modal.vue'
+import axios from 'axios'
+import fs from 'fs'
 
-export default {
+export default {    
   data() {
       return {
-          questions: [
-              {id:302, subject:"问题1", options:["选项1选项1选项1选项1选项1选项1", "选项2", "选项3", "选项4"], answer: 3},
-              {id:303, subject:"问题2", options:[{"A": "选项1"}, {"B": "选项1"}, {"C": "选项1"}, {"D": "选项1"},], answer: 2},
-              {id:304, subject:"问题3", options:[{"A": "选项1"}, {"B": "选项1"}, {"C": "选项1"}, {"D": "选项1"},], answer: 1},
-              {id:305, subject:"问题4", options:[{"A": "选项1"}, {"B": "选项1"}, {"C": "选项1"}, {"D": "选项1"},], answer: 3},
-              {id:334, subject:"问题5", options:[{"A": "选项1"}, {"B": "选项1"}, {"C": "选项1"}, {"D": "选项1"},], answer: 4},
-              {id:376, subject:"问题6", options:[{"A": "选项1"}, {"B": "选项1"}, {"C": "选项1"}, {"D": "选项1"},], answer: 1},
-            
-            ],
+            questions: [],
             curQuestionNo: 0, //当前回答第几题
             chooseId: null,
             scores: 0,
@@ -53,9 +47,17 @@ export default {
   components: {
     Modal,
   },
-  computed: {
+  beforeCreate: function() {
+    this.$nextTick(function() {
+       this.initData()
+    })
+  },
+  computed: {     
       question: function(){
-          console.log(this.questions[this.curQuestionNo])
+          console.log(this.questions.length)
+          if(this.questions.length == 0){
+              return {subject:"", options:[], answer: 0}
+          }
           return this.questions[this.curQuestionNo]
       },
       tips: function(){
@@ -68,7 +70,23 @@ export default {
           return String.fromCharCode(index+'A'.charCodeAt())
         }
   },
-  methods: {    
+  methods: {
+      initData() {
+          var that = this
+          axios.get('/questions')
+            .then((response) => {
+                that.questions = response.data
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        // var _this = this;
+        // this.$http.get("static/questions.json", null).then(function(res) {
+        //   console.log(res.body);
+        //   _this.questions = res.body.result.list;
+        // });
+      },
       nextQuestion(tips) {    
           this.curQuestionNo++
           this.chooseId = null
@@ -110,16 +128,6 @@ export default {
             console.log('Hello')
             await this.sleep(1001)
             this.modalText = null
-        },
-        sleep: function sleep(ms) {
-            // return new Promise(resolve => setTimeout(resolve, ms))
-            var now = new Date(); 
-            var exitTime = now.getTime() + ms; 
-            while (true) { 
-                now = new Date(); 
-                if (now.getTime() > exitTime) 
-                    return;
-            }
         }
   }
 }
@@ -128,11 +136,15 @@ export default {
 <style lang="stylus" scoped>
     #question-div
         height 100% 
-        padding-top 20%
         background-image url("../assets/image/man-star.jpg")
         background-repeat no-repeat
         background-position center
         background-size 100% 80%
+
+    #question-div > h2
+        padding-top 20%
+        font-family 'happyfont'
+        color #f38686
 
     .reddiv{
         background red
@@ -140,8 +152,8 @@ export default {
         height 20
     }
     #question
-        margin-left 20%
-        margin-right 20%
+        margin-left 15%
+        margin-right 15%
         margin-top 5%
 
     .clearfix:after, .clearfix:before
