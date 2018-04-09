@@ -1,5 +1,5 @@
 <template>
-    <div id="home">
+    <div id="home">        
         <div id="user-div">
             <img v-bind="{src: user.photo}" alt="头像">
         </div>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'homePage',
     data() {

@@ -29,9 +29,10 @@
 </template>
 
 <script>
-import Modal from './modal/modal.vue'
+import Modal from './common/modal.vue'
 import axios from 'axios'
 import fs from 'fs'
+import {logError} from '../utils/log.js'
 
 export default {    
   data() {
@@ -78,14 +79,23 @@ export default {
                 that.questions = response.data
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error);//输出错误日志到控制台
+                logError('ERR',error);//上传错误日志到服务端
+                this.getLocalData();
             });
-
-        // var _this = this;
-        // this.$http.get("static/questions.json", null).then(function(res) {
-        //   console.log(res.body);
-        //   _this.questions = res.body.result.list;
-        // });
+      },
+    //   从json文件获取题目
+      getLocalData(){
+          var that = this
+          axios.get('/static/questions.json')
+            .then((response) => {
+                console.log("get "+ response)
+                that.questions = response.data
+            })
+            .catch((error) => {
+                console.log(error);//输出错误日志到控制台
+                logError('ERR',error);//上传错误日志到服务端                
+            });
       },
       nextQuestion(tips) {    
           this.curQuestionNo++
@@ -108,8 +118,8 @@ export default {
           if(this.chooseId === null){
               this.modalText = "你还没有选择答案哦～"
               setTimeout(function(){
-                that.hideModal()
-            }, 1000)
+                  that.hideModal()
+                  }, 800)
               return
           } else if(this.chooseId === this.questions[this.curQuestionNo].answer){              
               this.scores = this.scores+10
@@ -122,12 +132,7 @@ export default {
           setTimeout(function(){
               that.hideModal()
               that.nextQuestion(tips)
-          }, 1000, tips)
-        },
-        test: async function test() {
-            console.log('Hello')
-            await this.sleep(1001)
-            this.modalText = null
+          }, 800, tips)
         }
   }
 }

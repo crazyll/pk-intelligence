@@ -1,5 +1,6 @@
 <template>
     <div id="pkResult">
+        <navbar/>
         <div class="result_style">
             <p class="pass_style">答对<span class="no_style">{{passNo}}</span>道题</p>
             <p class="score_style">共<span class="no_style">{{score}}</span>分</p>            
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+import navbar from './common/navBar.vue'
 export default {
   name: 'pkResult',
   data() {
@@ -25,6 +27,9 @@ export default {
           shareCoverImg: "src/assets/image/share_cover.png",
           show_cover: false
       }
+  },
+  components:{
+      navbar
   },
   computed: {
       passNo() {

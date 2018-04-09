@@ -78,15 +78,11 @@ app.get('/questions', function(req, res, next){
 			if(err) next()
       res.send(results)
     })
-
 	}) 
-	
 })
 
 
 // view engine setup
-
-
 var ejs = require('ejs')
 app.engine('html', ejs.__express) 
 app.set('view engine', 'html') 
@@ -100,7 +96,23 @@ app.get('/', function(req, res, next){
 }) 
 
 
+// 收集前端log
+app.get('/logerrors', function(req, res){
+	let message = req.query.sev+':  '+req.query.msg;
+	fs.appendFile(path.join(__dirname, '../log/log-'+getDay()), message+'\n', (err)=>{
+		console.log('appendFile error happened.');
+	})
+})
 
+
+function getDay(){
+	let today = '';
+	let date = new Date();
+	today += date.getFullYear()+'-';
+	today += (date.getMonth()+1)+'-';
+	today += date.getDate();
+	return today;
+}
 
 //监听本地的 3000 端口
 app.listen(3000, function () {
