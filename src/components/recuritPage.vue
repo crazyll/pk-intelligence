@@ -32,7 +32,7 @@
 import Modal from './common/modal.vue'
 import axios from 'axios'
 import fs from 'fs'
-import {logError} from '../utils/log.js'
+import logError from '../utils/log.js'
 
 export default {    
   data() {

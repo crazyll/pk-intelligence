@@ -69,10 +69,87 @@ hideModal() {
 ```
 
 #### 数据请求
-向后台请求 `/questions` Vue 2.5.2 已经不支持`this.$http`，调试器打印出来为undefined，使用 axios 请求数据。
+1. 向后台请求 `/questions` Vue 2.5.2 已经不支持`this.$http`，调试器打印出来为undefined，使用 axios 请求数据。
+2. 请求失败时加载 static 目录下的 questions.json 文件初始化题目数据
+
+#### 错误监控
+监控前端报错并发送到服务器
+前端 log.js 文件：
+```
+export function logError(sev, msg){
+    var img = new Image();
+    img.src = '/logerrors?sev='+encodeURIComponent(sev)
+    +'&msg='+encodeURIComponent(msg);
+}
+```
+服务端接收到 /logerrors 将错误保存在本地服务器：
+```
+// 收集前端log
+app.get('/logerrors', function(req, res){
+	let message = new Date() + ":\n" + req.query.sev+':  '+req.query.msg+'\n';
+	fs.appendFile(path.join(__dirname, '../log/log-'+getDay()), message+'\n', (err)=>{
+		console.log('appendFile error happened.');
+	})
+})
+```
+
+监控 recuritPage.vue 中的错误：
+```
+import logError from '../utils/log.js'
+
+initData() {
+    axios.get('/questions')
+    .then((response) => {
+        this.questions = response.data
+    })
+    .catch((error) => {
+        console.log(error);//输出错误日志到控制台
+        logError('ERR',error);//上传错误日志到服务端
+        this.getLocalData();
+    });
+}
+```
+
+#### 使用localStory初始化成绩信息
+File homePage.vue
+使用created钩子函数调用initData()方法：
+```
+created(){
+    this.$nextTick(function(){
+        this.initData()
+    })   
+},
+```
+initData() 当读到上一次成绩为默认值0时，拿localStorage中的数据去初始化：
+```
+methods: {
+    initData(){
+        if(this.$store.state.personal.lastPerf.score === 0){
+            if(localStorage.getItem('personal')){
+                let str = localStorage.getItem('personal')
+                let personal = JSON.parse(str)
+                let state2 = {
+                    user: personal.user,
+                    lastPerf: personal.lastPerf,
+                    sum: personal.sum,
+                    rightNo: personal.rightNo
+                }                
+                this.$store.commit('initPersonal', state2)  
+            }                                          
+        } else {
+            if(this.$store.state.personal.user != this.user.userName){
+                console.log("清除缓存")
+                localStorage.clear()
+            }                
+        }
+    }
+}
+```
+
 
 ### server 端
 express 构建的基础服务
+File ／server/app.js
 - [superagent](http://visionmedia.github.io/superagent/): 适用于nodejs环境的客户端请求代理模块，用于模拟请求数据
 - [cheerio](https://github.com/cheeriojs/cheerio): 实现了部分 JQuery 功能，用于后端解析 html 页面
 - [async](https://caolan.github.io/async/): 简单的异步请求模块

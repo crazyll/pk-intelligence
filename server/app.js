@@ -98,12 +98,11 @@ app.get('/', function(req, res, next){
 
 // 收集前端log
 app.get('/logerrors', function(req, res){
-	let message = req.query.sev+':  '+req.query.msg;
+	let message = new Date() + ":\n" + req.query.sev+':  '+req.query.msg+'\n';
 	fs.appendFile(path.join(__dirname, '../log/log-'+getDay()), message+'\n', (err)=>{
 		console.log('appendFile error happened.');
 	})
 })
-
 
 function getDay(){
 	let today = '';

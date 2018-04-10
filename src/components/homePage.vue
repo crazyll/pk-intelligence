@@ -28,9 +28,7 @@ export default {
         }
     },
     created(){
-        console.log("初始化本地数据outer")
         this.$nextTick(function(){
-            console.log("初始化本地数据inner")
             this.initData()
         })   
     },
