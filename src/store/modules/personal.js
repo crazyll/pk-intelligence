@@ -13,7 +13,7 @@ const state = {
 
 const getters = {
     rightRate: (state, getters, rootState) => {
-        return state.sum === 0 ? 0:state.rightNo/state.sum 
+        return state.sum === 0 ? '0%':(state.rightNo/state.sum)*100+'%' 
     },
     lastScore: state => state.lastPerf.score,
     lastRight: state => state.lastPerf.right
