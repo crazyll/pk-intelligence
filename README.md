@@ -3,6 +3,9 @@
 > A Vue.js project
 答题应用－持续更新中
 
+## 在线展示
+![image](./static/小程序-没有域名.png)
+
 ## Build Setup
 
 ``` bash
