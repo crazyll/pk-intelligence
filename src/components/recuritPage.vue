@@ -73,10 +73,9 @@ export default {
   },
   methods: {
       initData() {
-          var that = this
           axios.get('/questions')
             .then((response) => {
-                that.questions = response.data
+                this.questions = response.data
             })
             .catch((error) => {
                 console.log(error);//输出错误日志到控制台
@@ -86,11 +85,10 @@ export default {
       },
     //   从json文件获取题目
       getLocalData(){
-          var that = this
           axios.get('/static/questions.json')
             .then((response) => {
                 console.log("get "+ response)
-                that.questions = response.data
+                this.questions = response.data
             })
             .catch((error) => {
                 console.log(error);//输出错误日志到控制台
@@ -102,10 +100,13 @@ export default {
           this.chooseId = null
 
           if(tips === "提交"){
-            this.$router.push({
-                  name: 'pkResult', 
-                  params: {scores: this.scores, passNo: this.passNo}
-                })
+            var perf = {
+                right: this.passNo, 
+                sum: this.questions.length,          
+                score: this.scores
+                }
+            this.$store.commit('recordScore', perf)
+            this.$router.push('/pkResult')
           }     
       },
       hideModal() {
@@ -141,10 +142,10 @@ export default {
 <style lang="stylus" scoped>
     #question-div
         height 100% 
-        background-image url("../assets/image/man-star.jpg")
+        background-image url("../assets/image/fly.jpg")
         background-repeat no-repeat
         background-position center
-        background-size 100% 80%
+        background-size 100% 100%
 
     #question-div > h2
         padding-top 20%
@@ -192,9 +193,8 @@ export default {
         padding-left 0.5rem
 
     .has_choosed
-        // background-color #6ff5b1a3   
-        background:linear-gradient(310deg,#fff 3%,#d391acc4 50%,#fff 90%)
-        // border-radius 5px
+        background: linear-gradient( #e8dce6 5%, rgb(239, 131, 143) 40%,rgb(247, 206, 212) 90%, #f9d2d4 95%);
+        border-radius 0.5rem
 
 
     .nextStepBtn

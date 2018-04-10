@@ -3,7 +3,7 @@
         <div id="modal_body">
             <slot></slot>
         </div>
-        <div class="md-overlay">test</div>
+        <div class="md-overlay"></div>
     </div>
 </template>
 
@@ -24,8 +24,8 @@ export default {
     }
 
     #modal_body
-        background #f8aeaf
-        box-shadow 2px 2px 3px pink
+        background #a5dbfa
+        box-shadow 2px 2px 3px #a5dbfa
         position absolute
         width: 200px;
         height auto

@@ -20,6 +20,8 @@
 
 <script>
 import navbar from './common/navBar.vue'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'pkResult',
   data() {
@@ -28,18 +30,19 @@ export default {
           show_cover: false
       }
   },
+  mounted(){
+      this.$store.commit('storePersonal')
+  },
   components:{
       navbar
   },
   computed: {
-      passNo() {
-          return this.$route.params.passNo
-      },
-      score() {
-          return this.$route.params.scores
-      },
+      ...mapGetters({
+          passNo: 'lastRight',
+          score: 'lastScore'
+      }),
       grade() {
-          let score = this.$route.params.scores
+          let score = this.score
           console.log(score)
           if(score===0){
             return "你是小傻子吗~"

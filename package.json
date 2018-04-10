@@ -5,21 +5,22 @@
   "author": "liuying_q <liuying_q@163.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",   
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
     "start": "node server/app.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
     "async": "^2.6.0",
+    "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "superagent": "^3.8.2",
-    "superagent-charset": "^1.2.0"
+    "superagent-charset": "^1.2.0",
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

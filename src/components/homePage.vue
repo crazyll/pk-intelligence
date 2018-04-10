@@ -2,7 +2,9 @@
     <div id="home">        
         <div id="user-div">
             <img v-bind="{src: user.photo}" alt="头像">
+            <Record/>
         </div>
+        
         <ul class="game-mode">
             <li @click="toRecurit">闯关模式</li>
             <li>好友对战</li>
@@ -11,6 +13,7 @@
 </template>
 
 <script>
+import Record from './userInfo/record.vue'
 
 export default {
     name: 'homePage',
@@ -24,9 +27,45 @@ export default {
 
         }
     },
+    created(){
+        console.log("初始化本地数据outer")
+        this.$nextTick(function(){
+            console.log("初始化本地数据inner")
+            this.initData()
+        })   
+    },
+    mounted(){
+        console.log("mounted")
+    },
+    updated(){
+        console.log("updated")
+    },
+    components:{
+        Record
+    },
     methods: {
         toRecurit() {
             this.$router.push('/recurit')
+        },
+        initData(){
+            if(this.$store.state.personal.lastPerf.score === 0){
+                if(localStorage.getItem('personal')){
+                    let str = localStorage.getItem('personal')
+                    let personal = JSON.parse(str)
+                    let state2 = {
+                        user: personal.user,
+                        lastPerf: personal.lastPerf,
+                        sum: personal.sum,
+                        rightNo: personal.rightNo
+                    }                
+                    this.$store.commit('initPersonal', state2)  
+                }                                          
+            } else {
+                if(this.$store.state.personal.user != this.user.userName){
+                    console.log("清除缓存")
+                    localStorage.clear()
+                }                
+            }
         }
     }
 }
@@ -40,7 +79,9 @@ export default {
         background-size: 100% 100%;
 
     #user-div
-        padding-top  30%;       
+        padding: 20% 8% 2% 8%;
+        overflow: hidden;
+        line-height: inherit;
 
     #user-div>img
         width 90px
@@ -61,7 +102,7 @@ export default {
         height 70px
         margin-left auto 
         margin-right auto 
-        margin-top 30px
+        margin-top 4rem
     
     .game-mode > li:first-child 
         background lightblue 

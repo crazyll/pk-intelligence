@@ -25,7 +25,7 @@ export default new Router({
       component: recuritPage
     },
     {
-      path: '/pkResult/:scores/:passNo',
+      path: '/pkResult',
       name: 'pkResult',
       component: pkResult
       // props: { score: recuritPage.data.score, passNo: recuritPage.data.passNo}
