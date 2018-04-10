@@ -27,15 +27,17 @@ npm run start
 
 ### 初始化
 1. 使用 vue-cli 初始化一个带有 webpack 默认配置的前端项目
-｀vue init webpack ｀
+｀vue init webpack`
 
 2. template 文件目录
+```
 -- components
 --- modal               // 提示框
 ---- modal.vue
 --- homePage.vue        // 游戏首页模板
 --- recuritPage.vue     // 答题模板
 --- pkResult.vue        // 成绩模板
+```
 
 ### 实现
 #### 使用 vue-router 控制 App.vue 内 template 模板的变化
